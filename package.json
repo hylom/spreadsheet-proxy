@@ -1,0 +1,14 @@
+{
+  "name": "event-manager-server",
+  "version": "1.0.0",
+  "description": "Event manager server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mesotokyo",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "googleapis": "^27.0.0"
+  }
+}
