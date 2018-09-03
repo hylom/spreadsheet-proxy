@@ -1,7 +1,7 @@
 const fs = require('fs');
 const {google} = require('googleapis');
 
-const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
+const SCOPES = [ 'https://www.googleapis.com/auth/spreadsheets' ];
 const TOKEN_PATH = 'token.json';
 const REFRESH_PATH = 'token.json';
 const CREDENTIALS_PATH = 'credentials.json';
@@ -9,7 +9,8 @@ const CREDENTIALS_PATH = 'credentials.json';
 exports.requestAuth = function requestAuth(req, res) {
   _getAuthClient().then(
     (authClient) => { // succeed
-      const authUrl = authClient.generateAuthUrl({ scope: SCOPES });
+      const authUrl = authClient.generateAuthUrl(
+        { scope: SCOPES, access_type: 'offline' });
       res.statusCode = 302;
       res.setHeader('Location', authUrl);
       res.end('ok');
@@ -29,6 +30,7 @@ exports.acceptAuthCallback = function acceptAuthCallback(req, res) {
       return authClient.getToken(code).then(
         (tokens) => {
           authClient.setCredentials(tokens);
+          console.log(tokens);
           return fs.promises.writeFile(TOKEN_PATH,
                                        JSON.stringify({ tokens: tokens.tokens }));
         }
